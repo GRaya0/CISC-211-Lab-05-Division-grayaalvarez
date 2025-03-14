@@ -14,7 +14,7 @@
 .type nameStr,%gnu_unique_object
     
 /*** STUDENTS: Change the next line to your name!  **/
-nameStr: .asciz "Inigo Montoya"  
+nameStr: .asciz "Gabriel Raya"  
 
 .align   /* realign so that next mem allocations are on word boundaries */
  
@@ -80,7 +80,81 @@ asmFunc:
      * Use it to test the C test code */
     
     /*** STUDENTS: Place your code BELOW this line!!! **************/
-
+    /*3. Copy the input values in those registers 
+     to the mem locations labeled dividend and divisor*/
+    LDR r2, =dividend
+    # STR r0, [r2]
+    MOV r2, r0
+    LDR r3, =divisor
+    # STR r1, [r3]
+    MOV r3, r1
+    
+    /* 4.Store 0 in locations quotient and mod. */
+    LDR r4, =quotient
+    LDR r5, =0
+    # STR r5, [r4]
+    MOV r4, r5
+    LDR r7, =mod
+    # STR r5, [r7]
+    MOV r7, r5
+    
+    /*5. Check the input values. If either input value is 0, it is an error.*/
+    CMP r0, #0
+    BEQ error_
+    
+    CMP r1, #0
+    BEQ error_
+    
+    /* 8. Use the division-by-subtraction method we discussed in 
+     class to calculate the result of performing this integer 
+     division operation: dividend / divisor */
+    B division_by_subtraction
+    B done
+stop_loop:
+    /* 11.Store the result of dividend mod divisor (same as dividend % divisor)
+     into the memory location labeled mod */
+    # MOV r7, r2
+    # LDR r2, r2
+    STR r2, [r7]
+    # LDR r7, [r2]
+    /*12.	Make sure we_have_a_problem is set to 0*/
+    LDR r6, =we_have_a_problem
+    # MOV r6, #0
+    STR r5, [r6]
+    /*13.	Set r0 equal to the result of the division calculation */
+    MOV r0, r4
+    
+    B done
+division_by_subtraction:
+    CMP r2, r3
+    BLT stop_loop
+    
+   
+    /*10.Store the result of the division calculation into the memory 
+     location labeled quotient*/
+    ADD r4, r4, #1
+    
+    SUB r2, r2, r3
+    B division_by_subtraction
+    
+/* 6.For any error, do the following: */
+error_:
+    /* a) store a value of 1 into memory location labeled 
+	we_have_a_problem */
+    LDR r6, =we_have_a_problem
+    MOV r5, #1
+    STR r5, [r6]
+    /* b) put the address of quotient(not the value stored at that address!)
+	in r0 */
+    LDR r0, =quotient
+    /* c) branch to done. */
+    B done
+    
+    
+    
+    
+    
+    
     
     /*** STUDENTS: Place your code ABOVE this line!!! **************/
 
