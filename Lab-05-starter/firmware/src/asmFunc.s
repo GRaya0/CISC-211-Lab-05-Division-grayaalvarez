@@ -134,14 +134,16 @@ stop_loop:
     /*LDR r2, r2*/
     LDR r7, =mod
     STR r2, [r7]
+    MOV r7, r2
     /*LDR r7, [r2]*/
     /*12.	Make sure we_have_a_problem is set to 0*/
     LDR r6, =we_have_a_problem
     /*MOV r6, #0*/
     LDR r5, =0
     STR r5, [r6]
+    MOV r6, r5
     /*13.	Set r0 equal to the result of the division calculation */
-    LDR r0, =quotient
+    MOV r0, r4
     
     
     B done
