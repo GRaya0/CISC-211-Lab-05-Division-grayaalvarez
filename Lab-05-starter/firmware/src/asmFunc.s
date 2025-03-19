@@ -84,8 +84,11 @@ asmFunc:
      to the mem locations labeled dividend and divisor*/
     LDR r2, =dividend
     STR r0, [r2]
+    MOV r2, r0
+    
     LDR r3, =divisor
     STR r1, [r3]
+    MOV r3, r1
     
     /* 4.Store 0 in locations quotient and mod. */
     LDR r4, =quotient
@@ -95,44 +98,52 @@ asmFunc:
     STR r5, [r7]
     
     /*5. Check the input values. If either input value is 0, it is an error.*/
-    CMP r0, #0
+    CMP r0, r5
     BEQ error_
     
-    CMP r1, #0
+    CMP r1, r5
     BEQ error_
     
-    /* 8. Use the division-by-subtraction method we discussed in 
-     class to calculate the result of performing this integer 
-     division operation: dividend / divisor */
+    /* 8. Use the division-by-subtraction method we discussed in class to 
+     calculate the result of performing this integer division 
+     operation: dividend / divisor */
     B division_by_subtraction
     B done
+
+division_by_subtraction:
+    CMP r0, r1
+    BLO stop_loop
+    
+   
+    /*10.Store the result of the division calculation into the memory 
+     location labeled quotient*/
+    LDR r5, =1
+    SUB r0, r0, r1
+    ADD r4, r4, r5
+    
+    
+    B division_by_subtraction
+    
+
 stop_loop:
     /* 11.Store the result of dividend mod divisor (same as dividend % divisor)
      into the memory location labeled mod */
     /*MOV r7, r2*/
     /*LDR r2, r2*/
+    LDR r7, =mod
     STR r2, [r7]
     /*LDR r7, [r2]*/
     /*12.	Make sure we_have_a_problem is set to 0*/
     LDR r6, =we_have_a_problem
     /*MOV r6, #0*/
+    LDR r5, =0
     STR r5, [r6]
     /*13.	Set r0 equal to the result of the division calculation */
-    MOV r0, r4
+    LDR r0, =quotient
+    
     
     B done
-division_by_subtraction:
-    CMP r2, r3
-    BLT stop_loop
-    
-   
-    /*10.Store the result of the division calculation into the memory 
-     location labeled quotient*/
-    ADD r4, r4, #1
-    
-    SUB r2, r2, r3
-    B division_by_subtraction
-    
+
 /* 6.For any error, do the following: */
 error_:
     /* a) store a value of 1 into memory location labeled 
