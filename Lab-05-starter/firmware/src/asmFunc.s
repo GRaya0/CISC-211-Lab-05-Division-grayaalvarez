@@ -94,8 +94,10 @@ asmFunc:
     LDR r4, =quotient
     LDR r5, =0
     STR r5, [r4]
+    MOV r4, r5
     LDR r7, =mod
     STR r5, [r7]
+    MOV r7, r5
     
     /*5. Check the input values. If either input value is 0, it is an error.*/
     CMP r0, r5
@@ -111,14 +113,14 @@ asmFunc:
     B done
 
 division_by_subtraction:
-    CMP r0, r1
-    BLO stop_loop
+    CMP r2, r3
+    BLT stop_loop
     
    
     /*10.Store the result of the division calculation into the memory 
      location labeled quotient*/
     LDR r5, =1
-    SUB r0, r0, r1
+    SUB r2, r2, r3
     ADD r4, r4, r5
     
     
