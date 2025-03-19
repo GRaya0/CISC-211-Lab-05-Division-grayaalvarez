@@ -99,6 +99,7 @@ asmFunc:
     STR r5, [r7]
     MOV r7, r5
     
+    
     /*5. Check the input values. If either input value is 0, it is an error.*/
     CMP r0, r5
     BEQ error_
@@ -114,7 +115,7 @@ asmFunc:
 
 division_by_subtraction:
     CMP r2, r3
-    BLT stop_loop
+    BLO stop_loop
     
    
     /*10.Store the result of the division calculation into the memory 
@@ -130,31 +131,27 @@ division_by_subtraction:
 stop_loop:
     /* 11.Store the result of dividend mod divisor (same as dividend % divisor)
      into the memory location labeled mod */
-    /*MOV r7, r2*/
-    /*LDR r2, r2*/
     LDR r7, =mod
     STR r2, [r7]
     MOV r7, r2
-    /*LDR r7, [r2]*/
     /*12.	Make sure we_have_a_problem is set to 0*/
     LDR r6, =we_have_a_problem
-    /*MOV r6, #0*/
     LDR r5, =0
     STR r5, [r6]
     MOV r6, r5
     /*13.	Set r0 equal to the result of the division calculation */
     MOV r0, r4
-    
-    
+ 
     B done
 
 /* 6.For any error, do the following: */
 error_:
     /* a) store a value of 1 into memory location labeled 
 	we_have_a_problem */
+    LDR r5, =1
     LDR r6, =we_have_a_problem
-    MOV r5, #1
     STR r5, [r6]
+    MOV r6, r5
     /* b) put the address of quotient(not the value stored at that address!)
 	in r0 */
     LDR r0, =quotient
