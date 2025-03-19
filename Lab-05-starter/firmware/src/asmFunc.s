@@ -83,22 +83,16 @@ asmFunc:
     /*3. Copy the input values in those registers 
      to the mem locations labeled dividend and divisor*/
     LDR r2, =dividend
-    /*LDR r2, [r0]*/
     STR r0, [r2]
-    /*MOV r2, r0*/
     LDR r3, =divisor
-    /*LDR r3, [r1]*/
     STR r1, [r3]
-    /*MOV r3, r1*/
     
     /* 4.Store 0 in locations quotient and mod. */
     LDR r4, =quotient
     LDR r5, =0
-    /*STR r5, [r4]*/
-    MOV r4, r5
+    STR r5, [r4]
     LDR r7, =mod
-    /*STR r5, [r7]*/
-    MOV r7, r5
+    STR r5, [r7]
     
     /*5. Check the input values. If either input value is 0, it is an error.*/
     CMP r0, #0
