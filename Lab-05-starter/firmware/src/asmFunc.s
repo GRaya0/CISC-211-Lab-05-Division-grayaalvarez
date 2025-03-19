@@ -83,19 +83,19 @@ asmFunc:
     /*3. Copy the input values in those registers 
      to the mem locations labeled dividend and divisor*/
     LDR r2, =dividend
-    # STR r0, [r2]
+    /*STR r0, [r2]*/
     MOV r2, r0
     LDR r3, =divisor
-    # STR r1, [r3]
+    /*STR r1, [r3]*/
     MOV r3, r1
     
     /* 4.Store 0 in locations quotient and mod. */
     LDR r4, =quotient
     LDR r5, =0
-    # STR r5, [r4]
+    /*STR r5, [r4]*/
     MOV r4, r5
     LDR r7, =mod
-    # STR r5, [r7]
+    /*STR r5, [r7]*/
     MOV r7, r5
     
     /*5. Check the input values. If either input value is 0, it is an error.*/
@@ -113,13 +113,13 @@ asmFunc:
 stop_loop:
     /* 11.Store the result of dividend mod divisor (same as dividend % divisor)
      into the memory location labeled mod */
-    # MOV r7, r2
-    # LDR r2, r2
+    /*MOV r7, r2*/
+    /*LDR r2, r2*/
     STR r2, [r7]
-    # LDR r7, [r2]
+    /*LDR r7, [r2]*/
     /*12.	Make sure we_have_a_problem is set to 0*/
     LDR r6, =we_have_a_problem
-    # MOV r6, #0
+    /*MOV r6, #0*/
     STR r5, [r6]
     /*13.	Set r0 equal to the result of the division calculation */
     MOV r0, r4
